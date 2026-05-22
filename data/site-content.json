@@ -1,0 +1,113 @@
+{
+  "portfolio": [
+    {
+      "title": "Multi-color LED Panel",
+      "category": "Indoor Display",
+      "tag": "Indoor Display - Video",
+      "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80",
+      "videoId": "aqz-KE-bpKQ",
+      "span": "tall"
+    },
+    {
+      "title": "Shop OPEN Sign",
+      "category": "Retail Signage",
+      "tag": "Retail Signage",
+      "image": "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=1200&q=80",
+      "videoId": "dQw4w9WgXcQ",
+      "span": "normal"
+    },
+    {
+      "title": "Mosque Prayer Display",
+      "category": "Mosque Install",
+      "tag": "Mosque Install - Video",
+      "image": "https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=1200&q=80",
+      "videoId": "LXb3EKWsInQ",
+      "span": "normal"
+    },
+    {
+      "title": "sfgfdgdf",
+      "category": "hdfhdh",
+      "tag": "dhfhdfh",
+      "image": "/uploads/1779378964641-Screenshot_2026-05-21_191951.png",
+      "videoId": "",
+      "span": "tall"
+    }
+  ],
+  "hero": {
+    "badge": "India | Bengali | English | Arabic",
+    "titleLine1": "Custom LED Display",
+    "titleLine2": "Solutions for",
+    "titleLine3": "Mosques & Businesses",
+    "description": "Programmable prayer time boards, Azan countdowns, scrolling LED signs, and digital signboards engineered, programmed, and installed by our local team.",
+    "ctaPrimary": "Get a Quote",
+    "ctaSecondary": "WhatsApp Us",
+    "ticker": "🕌 আসসালামু আলাইকুম | Maghrib Jamaat 6:45 PM | Please Silence Your Mobile Phones | JazakAllah Khair"
+  },
+  "testimonials": [
+    {
+      "name": "Masjid Noor Committee",
+      "quote": "The prayer time display is crystal clear and beautifully programmed. Setup was smooth and support is excellent."
+    },
+    {
+      "name": "Sadiq Electronics",
+      "quote": "Our storefront LED board brought immediate visibility. The animation quality looks premium and modern."
+    },
+    {
+      "name": "Green Market Plaza",
+      "quote": "Professional team, durable build quality, and responsive updates whenever we need new messages."
+    }
+  ],
+  "pricing": [
+    {
+      "name": "Starter",
+      "price": "?15K",
+      "subtitle": "Starting From",
+      "description": "Perfect for small shops and local stores.",
+      "features": [
+        "Single-color scrolling LED board (2-4 ft)",
+        "Bengali + English text support",
+        "Manual text update via USB / remote",
+        "Indoor or covered outdoor use",
+        "1-year hardware warranty",
+        "On-site installation in Kolkata"
+      ],
+      "cta": "Order Starter",
+      "accent": "green"
+    },
+    {
+      "name": "Pro Mosque",
+      "price": "?45K",
+      "subtitle": "Starting From",
+      "description": "Complete prayer-time display system for mosques.",
+      "features": [
+        "Multi-color LED prayer board (5-8 ft)",
+        "Bengali - English - Arabic full support",
+        "Auto Azan + Iqamah countdown",
+        "Ramadan / Hijri calendar built-in",
+        "WiFi remote control via mobile app",
+        "2-year warranty + free updates",
+        "Free site survey & calibration"
+      ],
+      "cta": "Order Pro",
+      "accent": "blue",
+      "popular": true
+    },
+    {
+      "name": "Custom Build",
+      "price": "Quote",
+      "subtitle": "Tailored To You",
+      "description": "Bespoke billboards, video walls and IoT signage.",
+      "features": [
+        "Full-color HD video wall / billboard",
+        "Custom firmware & animations",
+        "IoT sensors, cameras, scheduling",
+        "Outdoor IP65 weatherproof build",
+        "CMS dashboard for multiple displays",
+        "3-year warranty + dedicated support",
+        "Nationwide installation"
+      ],
+      "cta": "Request Quote",
+      "accent": "purple"
+    }
+  ]
+}

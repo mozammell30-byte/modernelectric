@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 5 5 5;
+  --foreground: 255 255 255;
+  --card: 17 17 17;
+  --muted: 170 170 170;
+  --accent-green: 0 255 153;
+  --accent-blue: 0 209 255;
+  --accent-red: 255 59 59;
+}
+
+* {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  font-family: var(--font-inter), sans-serif;
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-space), sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 5 5 5;
+    --foreground: 255 255 255;
+  }
+}
+
+@layer components {
+  .container-shell {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .glass-panel {
+    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+
+  .neon-ring {
+    box-shadow: 0 0 0 1px rgba(0, 255, 153, 0.26), 0 0 18px rgba(0, 255, 153, 0.14);
+  }
+
+  .section-space {
+    @apply py-14 sm:py-16;
+  }
+
+  .led-text {
+    text-shadow: 0 0 8px rgba(0, 255, 153, 0.65), 0 0 25px rgba(0, 255, 153, 0.35);
+  }
+
+  .neon-title {
+    @apply text-white;
+    text-shadow: 0 0 16px rgba(0, 209, 255, 0.22);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.animate-marquee {
+  animation: marquee 12s linear infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
