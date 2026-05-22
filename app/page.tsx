@@ -2,6 +2,7 @@ import { Contact } from "@/components/contact";
 import { Faq } from "@/components/faq";
 import { Features } from "@/components/features";
 import { Footer } from "@/components/footer";
+import { Gallery } from "@/components/gallery";
 import { Hero } from "@/components/hero";
 import { LedDemo } from "@/components/led-demo";
 import { Navbar } from "@/components/navbar";
@@ -24,6 +25,7 @@ export default async function HomePage() {
         <Services />
         <LedDemo />
         <Portfolio items={content.portfolio} />
+        <Gallery items={content.gallery} />
         <Features />
         <Process />
         <Testimonials items={content.testimonials} />

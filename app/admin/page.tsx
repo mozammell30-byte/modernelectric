@@ -25,16 +25,17 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import type { HeroContent, PortfolioItem, PricingPlan, TestimonialItem } from "@/lib/data";
+import type { GalleryItem, HeroContent, PortfolioItem, PricingPlan, TestimonialItem } from "@/lib/data";
 
 type SiteContent = {
   portfolio: PortfolioItem[];
+  gallery: GalleryItem[];
   hero: HeroContent;
   testimonials: TestimonialItem[];
   pricing: PricingPlan[];
 };
 
-type TabKey = "portfolio" | "hero" | "testimonials" | "pricing";
+type TabKey = "portfolio" | "gallery" | "hero" | "testimonials" | "pricing";
 
 const emptyPortfolio: PortfolioItem = {
   title: "",
@@ -42,6 +43,13 @@ const emptyPortfolio: PortfolioItem = {
   tag: "",
   image: "",
   videoId: "",
+  span: "normal",
+};
+
+const emptyGallery: GalleryItem = {
+  title: "",
+  category: "",
+  image: "",
   span: "normal",
 };
 
@@ -68,8 +76,11 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+  const [uploadingGalleryIndex, setUploadingGalleryIndex] = useState<number | null>(null);
   const [portfolioQuery, setPortfolioQuery] = useState("");
   const [editingPortfolioIndex, setEditingPortfolioIndex] = useState<number | null>(null);
+  const [galleryQuery, setGalleryQuery] = useState("");
+  const [editingGalleryIndex, setEditingGalleryIndex] = useState<number | null>(null);
   const [pricingQuery, setPricingQuery] = useState("");
   const [editingPricingIndex, setEditingPricingIndex] = useState<number | null>(null);
 
@@ -112,6 +123,15 @@ export default function AdminPage() {
       );
   }, [content, portfolioQuery]);
 
+  const filteredGallery = useMemo(() => {
+    if (!content) return [];
+    if (!galleryQuery.trim()) return content.gallery.map((item, index) => ({ item, index }));
+    const q = galleryQuery.toLowerCase();
+    return content.gallery
+      .map((item, index) => ({ item, index }))
+      .filter(({ item }) => [item.title, item.category, item.image, item.span ?? "normal"].join(" ").toLowerCase().includes(q));
+  }, [content, galleryQuery]);
+
   const filteredPricing = useMemo(() => {
     if (!content) return [];
     if (!pricingQuery.trim()) return content.pricing.map((item, index) => ({ item, index }));
@@ -138,6 +158,14 @@ export default function AdminPage() {
     });
   }
 
+  function updateGalleryItem(index: number, key: keyof GalleryItem, value: string) {
+    patchContent((prev) => {
+      const next = [...prev.gallery];
+      next[index] = { ...next[index], [key]: value };
+      return { ...prev, gallery: next };
+    });
+  }
+
   function movePortfolio(index: number, direction: -1 | 1) {
     patchContent((prev) => {
       const arr = [...prev.portfolio];
@@ -145,6 +173,16 @@ export default function AdminPage() {
       if (target < 0 || target >= arr.length) return prev;
       [arr[index], arr[target]] = [arr[target], arr[index]];
       return { ...prev, portfolio: arr };
+    });
+  }
+
+  function moveGallery(index: number, direction: -1 | 1) {
+    patchContent((prev) => {
+      const arr = [...prev.gallery];
+      const target = index + direction;
+      if (target < 0 || target >= arr.length) return prev;
+      [arr[index], arr[target]] = [arr[target], arr[index]];
+      return { ...prev, gallery: arr };
     });
   }
 
@@ -164,6 +202,24 @@ export default function AdminPage() {
     const data = (await res.json()) as { url: string };
     updatePortfolioItem(index, "image", data.url);
     setToast({ type: "success", text: "Image uploaded." });
+  }
+
+  async function uploadGalleryImage(index: number, file: File) {
+    setUploadingGalleryIndex(index);
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/admin/upload", {
+      method: "POST",
+      body: formData,
+    });
+    setUploadingGalleryIndex(null);
+    if (!res.ok) {
+      setToast({ type: "error", text: "Image upload failed." });
+      return;
+    }
+    const data = (await res.json()) as { url: string };
+    updateGalleryItem(index, "image", data.url);
+    setToast({ type: "success", text: "Gallery image uploaded." });
   }
 
   async function save(section: TabKey) {
@@ -207,6 +263,7 @@ export default function AdminPage() {
 
           <nav className="mt-6 space-y-2">
             <button onClick={() => setTab("portfolio")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "portfolio" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Images className="h-4 w-4" /> Portfolio</button>
+            <button onClick={() => setTab("gallery")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "gallery" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Images className="h-4 w-4" /> Gallery</button>
             <button onClick={() => setTab("hero")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "hero" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Zap className="h-4 w-4" /> Hero</button>
             <button onClick={() => setTab("testimonials")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "testimonials" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Star className="h-4 w-4" /> Testimonials</button>
             <button onClick={() => setTab("pricing")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "pricing" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Wallet className="h-4 w-4" /> Pricing</button>
@@ -231,6 +288,15 @@ export default function AdminPage() {
                   className="inline-flex items-center gap-2 rounded-lg border border-[#00D1FF]/50 px-4 py-2 text-sm text-[#00D1FF]"
                 >
                   <Plus className="h-4 w-4" /> Add Item
+                </button>
+              )}
+              {tab === "gallery" && (
+                <button
+                  type="button"
+                  onClick={() => patchContent((prev) => ({ ...prev, gallery: [...prev.gallery, { ...emptyGallery }] }))}
+                  className="inline-flex items-center gap-2 rounded-lg border border-[#00D1FF]/50 px-4 py-2 text-sm text-[#00D1FF]"
+                >
+                  <Plus className="h-4 w-4" /> Add Image
                 </button>
               )}
               <button type="button" onClick={() => save(tab)} disabled={saving} className="inline-flex items-center gap-2 rounded-lg bg-[#00FF99] px-4 py-2 text-sm font-semibold text-black disabled:opacity-60">
@@ -324,6 +390,74 @@ export default function AdminPage() {
                       <label className="text-xs text-[#9aa0a8] md:col-span-2"><span className="inline-flex items-center gap-1"><Link2 className="h-3.5 w-3.5" /> Image URL</span><input value={content.portfolio[editingPortfolioIndex].image} onChange={(e) => updatePortfolioItem(editingPortfolioIndex, "image", e.target.value)} className="mt-1 h-10 w-full rounded-lg border border-white/20 bg-black/40 px-3 text-sm" /></label>
                       <label className="text-xs text-[#9aa0a8] md:col-span-2"><span className="inline-flex items-center gap-1"><Video className="h-3.5 w-3.5" /> YouTube Video ID</span><input value={content.portfolio[editingPortfolioIndex].videoId ?? ""} onChange={(e) => updatePortfolioItem(editingPortfolioIndex, "videoId", e.target.value)} className="mt-1 h-10 w-full rounded-lg border border-white/20 bg-black/40 px-3 text-sm" placeholder="Optional" /></label>
                       <label className="text-xs text-[#9aa0a8] md:col-span-2"><span className="inline-flex items-center gap-1"><Upload className="h-3.5 w-3.5" /> Upload Image</span><input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={(e) => { const file = e.target.files?.[0]; if (file) uploadImage(editingPortfolioIndex, file); }} className="mt-1 w-full rounded-lg border border-white/20 bg-black/40 px-3 py-2 text-sm" />{uploadingIndex === editingPortfolioIndex && <p className="mt-1 text-xs text-[#9aa0a8]">Uploading...</p>}</label>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {tab === "gallery" && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0b0b0b] px-3 py-2">
+                <Search className="h-4 w-4 text-[#8f97a4]" />
+                <input value={galleryQuery} onChange={(e) => setGalleryQuery(e.target.value)} placeholder="Search by title/category/span..." className="w-full bg-transparent text-sm outline-none" />
+                <Link href="/#gallery" target="_blank" className="inline-flex items-center gap-1 rounded-md border border-[#00D1FF]/40 px-2 py-1 text-xs text-[#00D1FF]">
+                  <ExternalLink className="h-3.5 w-3.5" /> Show Page
+                </Link>
+              </div>
+
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-white/5 text-xs uppercase tracking-[0.14em] text-[#8f97a4]">
+                    <tr>
+                      <th className="px-3 py-3">Preview</th>
+                      <th className="px-3 py-3">Title</th>
+                      <th className="px-3 py-3">Category</th>
+                      <th className="px-3 py-3">Span</th>
+                      <th className="px-3 py-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredGallery.map(({ item, index }) => (
+                      <tr key={index} className="border-t border-white/10">
+                        <td className="px-3 py-2">
+                          {item.image ? (
+                            <img src={item.image} alt={item.title || "Preview"} className="h-12 w-20 rounded-md object-cover" />
+                          ) : (
+                            <div className="h-12 w-20 rounded-md bg-white/5" />
+                          )}
+                        </td>
+                        <td className="px-3 py-2 text-white">{item.title || "-"}</td>
+                        <td className="px-3 py-2 text-[#9aa0a8]">{item.category || "-"}</td>
+                        <td className="px-3 py-2 text-[#9aa0a8]">{item.span ?? "normal"}</td>
+                        <td className="px-3 py-2">
+                          <div className="flex flex-wrap items-center gap-1">
+                            <button type="button" onClick={() => setEditingGalleryIndex(index)} className="inline-flex items-center gap-1 rounded-md border border-[#00D1FF]/45 px-2 py-1 text-xs text-[#00D1FF]"><Pencil className="h-3.5 w-3.5" /> Edit</button>
+                            <button type="button" onClick={() => moveGallery(index, -1)} className="rounded-md border border-white/20 p-1 text-xs"><ArrowUp className="h-4 w-4" /></button>
+                            <button type="button" onClick={() => moveGallery(index, 1)} className="rounded-md border border-white/20 p-1 text-xs"><ArrowDown className="h-4 w-4" /></button>
+                            <button type="button" onClick={() => patchContent((prev) => ({ ...prev, gallery: prev.gallery.filter((_, i) => i !== index) }))} className="inline-flex items-center gap-1 rounded-md border border-[#FF3B3B]/50 px-2 py-1 text-xs text-[#FF8585]"><Trash2 className="h-3.5 w-3.5" /> Remove</button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {editingGalleryIndex !== null && content.gallery[editingGalleryIndex] && (
+                <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+                  <div className="w-full max-w-3xl rounded-2xl border border-white/15 bg-[#0b0b0b] p-4">
+                    <div className="mb-3 flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">Edit Gallery Item #{editingGalleryIndex + 1}</h3>
+                      <button type="button" onClick={() => setEditingGalleryIndex(null)} className="rounded-md border border-white/20 p-1"><X className="h-4 w-4" /></button>
+                    </div>
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <label className="text-xs text-[#9aa0a8]">Title<input value={content.gallery[editingGalleryIndex].title} onChange={(e) => updateGalleryItem(editingGalleryIndex, "title", e.target.value)} className="mt-1 h-10 w-full rounded-lg border border-white/20 bg-black/40 px-3 text-sm" /></label>
+                      <label className="text-xs text-[#9aa0a8]">Category<input value={content.gallery[editingGalleryIndex].category} onChange={(e) => updateGalleryItem(editingGalleryIndex, "category", e.target.value)} className="mt-1 h-10 w-full rounded-lg border border-white/20 bg-black/40 px-3 text-sm" /></label>
+                      <label className="text-xs text-[#9aa0a8]">Layout Span<select value={content.gallery[editingGalleryIndex].span ?? "normal"} onChange={(e) => updateGalleryItem(editingGalleryIndex, "span", e.target.value)} className="mt-1 h-10 w-full rounded-lg border border-white/20 bg-black/40 px-3 text-sm text-white"><option className="bg-[#0b0b0b] text-white" value="normal">normal</option><option className="bg-[#0b0b0b] text-white" value="tall">tall</option><option className="bg-[#0b0b0b] text-white" value="wide">wide</option></select></label>
+                      <label className="text-xs text-[#9aa0a8] md:col-span-2"><span className="inline-flex items-center gap-1"><Link2 className="h-3.5 w-3.5" /> Image URL</span><input value={content.gallery[editingGalleryIndex].image} onChange={(e) => updateGalleryItem(editingGalleryIndex, "image", e.target.value)} className="mt-1 h-10 w-full rounded-lg border border-white/20 bg-black/40 px-3 text-sm" /></label>
+                      <label className="text-xs text-[#9aa0a8] md:col-span-2"><span className="inline-flex items-center gap-1"><Upload className="h-3.5 w-3.5" /> Upload Image</span><input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={(e) => { const file = e.target.files?.[0]; if (file) uploadGalleryImage(editingGalleryIndex, file); }} className="mt-1 w-full rounded-lg border border-white/20 bg-black/40 px-3 py-2 text-sm" />{uploadingGalleryIndex === editingGalleryIndex && <p className="mt-1 text-xs text-[#9aa0a8]">Uploading...</p>}</label>
                     </div>
                   </div>
                 </div>

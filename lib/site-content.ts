@@ -1,9 +1,11 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
+  galleryItems,
   portfolio,
   pricingPlans,
   testimonials,
+  type GalleryItem,
   type PortfolioItem,
   type PricingPlan,
   type TestimonialItem,
@@ -12,6 +14,7 @@ import {
 
 export type SiteContent = {
   portfolio: PortfolioItem[];
+  gallery: GalleryItem[];
   hero: HeroContent;
   testimonials: TestimonialItem[];
   pricing: PricingPlan[];
@@ -22,6 +25,7 @@ const FILE_PATH = path.join(DATA_DIR, "site-content.json");
 
 const defaultContent: SiteContent = {
   portfolio,
+  gallery: galleryItems,
   hero: {
     badge: "India | Bengali | English | Arabic",
     titleLine1: "Custom LED Display",
@@ -50,6 +54,7 @@ async function ensureFile() {
 function mergeWithDefault(input: Partial<SiteContent> | null | undefined): SiteContent {
   return {
     portfolio: Array.isArray(input?.portfolio) ? input!.portfolio : defaultContent.portfolio,
+    gallery: Array.isArray(input?.gallery) ? input!.gallery : defaultContent.gallery,
     hero: { ...defaultContent.hero, ...(input?.hero ?? {}) },
     testimonials: Array.isArray(input?.testimonials) ? input!.testimonials : defaultContent.testimonials,
     pricing: Array.isArray(input?.pricing) ? input!.pricing : defaultContent.pricing,

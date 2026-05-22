@@ -8,7 +8,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const body = (await req.json()) as SiteContent;
-  if (!body || !Array.isArray(body.portfolio)) {
+  if (!body || !Array.isArray(body.portfolio) || !Array.isArray(body.gallery)) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 

@@ -40,6 +40,13 @@ export type HeroContent = {
   ticker: string;
 };
 
+export type GalleryItem = {
+  title: string;
+  category: string;
+  image: string;
+  span?: "normal" | "wide" | "tall";
+};
+
 export const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
@@ -154,10 +161,52 @@ export const portfolio: PortfolioItem[] = [
   },
 ];
 
+export const galleryItems: GalleryItem[] = [
+  {
+    title: "Main Prayer Hall Display",
+    category: "Mosque Interior",
+    image:
+      "https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=1600&q=80",
+    span: "wide",
+  },
+  {
+    title: "Night Neon Shopfront",
+    category: "Retail Exterior",
+    image:
+      "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?auto=format&fit=crop&w=1600&q=80",
+    span: "tall",
+  },
+  {
+    title: "Pixel Matrix Close-up",
+    category: "Hardware Detail",
+    image:
+      "https://images.unsplash.com/photo-1557318041-1ce374d55ebf?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Street LED Signboard",
+    category: "Business Signage",
+    image:
+      "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Controller & Board",
+    category: "Programming Unit",
+    image:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Color Wall Installation",
+    category: "Showroom",
+    image:
+      "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?auto=format&fit=crop&w=1600&q=80",
+    span: "wide",
+  },
+];
+
 export const pricingPlans: PricingPlan[] = [
   {
     name: "Starter",
-    price: "?15K",
+    price: "₹15K",
     subtitle: "Starting From",
     description: "Perfect for small shops and local stores.",
     features: [
@@ -173,7 +222,7 @@ export const pricingPlans: PricingPlan[] = [
   },
   {
     name: "Pro Mosque",
-    price: "?45K",
+    price: "₹45K",
     subtitle: "Starting From",
     description: "Complete prayer-time display system for mosques.",
     features: [
