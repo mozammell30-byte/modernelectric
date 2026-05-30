@@ -1,6 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://modernelectric.onrender.com";
+const siteName = "Modern Electric";
+const siteTitle = "Modern Electric | LED Display Boards for Mosques & Businesses";
+const siteDescription =
+  "Custom programmable LED display boards in West Bengal for mosques, prayer time systems, scrolling signboards, shop signage, and custom LED installations.";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -13,23 +19,78 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://modernelectric.example"),
-  title: "Modern Electric | Custom LED Display Solutions",
-  description:
-    "Premium programmable LED display systems for mosques and local businesses. Prayer time boards, scrolling LED signage, and custom installations.",
-  keywords: [
-    "LED display",
-    "mosque LED board",
-    "prayer time display",
-    "custom signboard",
-    "programmable LED",
-  ],
-  openGraph: {
-    title: "Modern Electric | Custom LED Display Solutions",
-    description:
-      "Custom programmable LED display systems for mosques and businesses.",
-    type: "website",
+  metadataBase: new URL(siteUrl),
+  applicationName: siteName,
+  title: {
+    default: siteTitle,
+    template: `%s | ${siteName}`,
   },
+  description: siteDescription,
+  keywords: [
+    "LED display board West Bengal",
+    "mosque LED display",
+    "prayer time display board",
+    "masjid prayer time board",
+    "scrolling LED signboard",
+    "shop LED signboard",
+    "programmable LED display",
+    "custom LED signage",
+    "LED display installation Kolkata",
+  ],
+  authors: [{ name: siteName }],
+  creator: siteName,
+  publisher: siteName,
+  category: "LED display and digital signage",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    url: "/",
+    siteName,
+    type: "website",
+    locale: "en_IN",
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "Modern Electric LED display solutions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/logo.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+  manifest: "/site.webmanifest",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#050505",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

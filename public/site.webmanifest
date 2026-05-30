@@ -1,0 +1,17 @@
+{
+  "name": "Modern Electric",
+  "short_name": "Modern Electric",
+  "description": "Custom LED display boards, mosque prayer time systems, scrolling signboards, and shop signage.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#00ff99",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

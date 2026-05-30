@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   Link2,
   LogOut,
+  Menu,
   Plus,
   Save,
   Search,
@@ -83,6 +84,7 @@ export default function AdminPage() {
   const [editingGalleryIndex, setEditingGalleryIndex] = useState<number | null>(null);
   const [pricingQuery, setPricingQuery] = useState("");
   const [editingPricingIndex, setEditingPricingIndex] = useState<number | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!toast) return;
@@ -104,11 +106,18 @@ export default function AdminPage() {
     load();
   }, [router]);
 
+  useEffect(() => {
+    const setInitialSidebar = () => setSidebarOpen(window.innerWidth >= 1024);
+    setInitialSidebar();
+    window.addEventListener("resize", setInitialSidebar);
+    return () => window.removeEventListener("resize", setInitialSidebar);
+  }, []);
+
   const stats = useMemo(() => {
     if (!content) return { total: 0, withVideo: 0, withUploads: 0 };
     const total = content.portfolio.length;
     const withVideo = content.portfolio.filter((x) => Boolean(x.videoId)).length;
-    const withUploads = content.portfolio.filter((x) => x.image.startsWith("/uploads/")).length;
+    const withUploads = content.portfolio.filter((x) => x.image.startsWith("/uploads/") || x.image.includes("/storage/v1/object/public/")).length;
     return { total, withVideo, withUploads };
   }, [content]);
 
@@ -148,6 +157,13 @@ export default function AdminPage() {
 
   function patchContent(updater: (draft: SiteContent) => SiteContent) {
     setContent((prev) => (prev ? updater(prev) : prev));
+  }
+
+  function selectTab(nextTab: TabKey) {
+    setTab(nextTab);
+    if (window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
   }
 
   function updatePortfolioItem(index: number, key: keyof PortfolioItem, value: string) {
@@ -254,27 +270,79 @@ export default function AdminPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#050505] text-white">
-      <div className="mx-auto grid min-h-screen max-w-[1450px] lg:grid-cols-[270px_minmax(0,1fr)]">
-        <aside className="border-b border-white/10 bg-[#090b10] p-4 lg:border-b-0 lg:border-r lg:p-5">
+      <div className="sticky top-0 z-[70] border-b border-white/10 bg-[#050505]/95 backdrop-blur">
+        <div className="mx-auto flex max-w-[1450px] items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+          <button
+            type="button"
+            onClick={() => setSidebarOpen((value) => !value)}
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/15 bg-white/[0.04] px-3 text-sm text-white transition hover:border-[#00D1FF]/45 hover:text-[#00D1FF]"
+            aria-label={sidebarOpen ? "Close admin menu" : "Open admin menu"}
+            aria-expanded={sidebarOpen}
+          >
+            {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            <span className="hidden min-[380px]:inline">{sidebarOpen ? "Close Menu" : "Menu"}</span>
+          </button>
+          <div className="flex min-w-0 items-center gap-2 text-sm text-[#9aa0a8]">
+            <LayoutDashboard className="h-4 w-4 shrink-0 text-[#00FF99]" />
+            <span className="truncate">Modern Electric Admin</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => save(tab)}
+            disabled={saving}
+            className="inline-flex h-10 items-center gap-2 rounded-lg bg-[#00FF99] px-3 text-sm font-semibold text-black disabled:opacity-60 sm:px-4"
+          >
+            <Save className="h-4 w-4" />
+            <span className="hidden sm:inline">{saving ? "Saving..." : "Save"}</span>
+          </button>
+        </div>
+      </div>
+
+      {sidebarOpen && (
+        <button
+          type="button"
+          aria-label="Close admin menu overlay"
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-[80] bg-black/65 backdrop-blur-sm lg:hidden"
+        />
+      )}
+
+      <aside
+        className={`fixed inset-y-0 left-0 z-[90] flex w-[min(86vw,300px)] flex-col overflow-y-auto border-r border-white/10 bg-[#090b10] p-4 shadow-2xl shadow-black/45 transition-transform duration-300 lg:w-[290px] lg:p-5 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <p className="text-xs uppercase tracking-[0.18em] text-[#00D1FF]">Menu</p>
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(false)}
+            className="rounded-lg border border-white/15 p-2 text-white/80 hover:text-white"
+            aria-label="Close admin menu"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
           <div className="rounded-xl border border-[#00D1FF]/30 bg-[#0b1320] p-4">
             <p className="text-xs uppercase tracking-[0.18em] text-[#00D1FF]">Modern Electric</p>
             <h1 className="mt-2 text-2xl font-bold">Admin Panel</h1>
             <p className="mt-2 text-xs text-[#8f97a4]">Manage website content</p>
           </div>
 
-          <nav className="mt-6 grid gap-2 sm:grid-cols-2 lg:block lg:space-y-2">
-            <button onClick={() => setTab("portfolio")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "portfolio" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Images className="h-4 w-4" /> Portfolio</button>
-            <button onClick={() => setTab("gallery")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "gallery" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Images className="h-4 w-4" /> Gallery</button>
-            <button onClick={() => setTab("hero")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "hero" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Zap className="h-4 w-4" /> Hero</button>
-            <button onClick={() => setTab("testimonials")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "testimonials" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Star className="h-4 w-4" /> Testimonials</button>
-            <button onClick={() => setTab("pricing")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "pricing" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Wallet className="h-4 w-4" /> Pricing</button>
+          <nav className="mt-6 grid gap-2">
+            <button onClick={() => selectTab("portfolio")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "portfolio" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Images className="h-4 w-4" /> Portfolio</button>
+            <button onClick={() => selectTab("gallery")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "gallery" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Images className="h-4 w-4" /> Gallery</button>
+            <button onClick={() => selectTab("hero")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "hero" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Zap className="h-4 w-4" /> Hero</button>
+            <button onClick={() => selectTab("testimonials")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "testimonials" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Star className="h-4 w-4" /> Testimonials</button>
+            <button onClick={() => selectTab("pricing")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "pricing" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Wallet className="h-4 w-4" /> Pricing</button>
             <Link href="/" className="flex w-full items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-left text-sm text-[#9aa0a8]"><Globe className="h-4 w-4" /> View Website</Link>
             <button className="flex w-full items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-left text-sm text-[#9aa0a8]"><Shield className="h-4 w-4" /> Security</button>
           </nav>
 
-          <button type="button" onClick={logout} className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-[#FF3B3B]/40 px-3 py-2 text-sm text-[#ff8b8b] lg:mt-6"><LogOut className="h-4 w-4" /> Logout</button>
-        </aside>
+          <button type="button" onClick={logout} className="mt-auto flex w-full items-center justify-center gap-2 rounded-lg border border-[#FF3B3B]/40 px-3 py-2 text-sm text-[#ff8b8b]"><LogOut className="h-4 w-4" /> Logout</button>
+      </aside>
 
+      <div className={`mx-auto min-h-screen max-w-[1450px] transition-[padding] duration-300 ${sidebarOpen ? "lg:pl-[290px]" : "lg:pl-0"}`}>
         <section className="min-w-0 p-4 sm:p-6 lg:p-8">
           <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div>
