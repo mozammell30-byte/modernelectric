@@ -230,10 +230,11 @@ export default function AdminPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(content),
     });
+    const data = (await res.json().catch(() => null)) as { error?: string } | null;
     setSaving(false);
     setToast({
       type: res.ok ? "success" : "error",
-      text: res.ok ? `${section[0].toUpperCase() + section.slice(1)} saved successfully.` : "Save failed.",
+      text: res.ok ? `${section[0].toUpperCase() + section.slice(1)} saved successfully.` : data?.error ?? "Save failed.",
     });
   }
 
@@ -568,4 +569,3 @@ export default function AdminPage() {
     </main>
   );
 }
-
