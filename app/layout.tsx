@@ -86,6 +86,9 @@ export const metadata: Metadata = {
     apple: "/favicon.png",
   },
   manifest: "/site.webmanifest",
+  verification: {
+    google: "--_6W4b2Pvy2tY5avMFA7wVnXueUUijlXNrFygkCV-w",
+  },
 };
 
 export const viewport: Viewport = {
