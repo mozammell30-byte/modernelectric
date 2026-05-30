@@ -13,6 +13,9 @@ import { Services } from "@/components/services";
 import { Testimonials } from "@/components/testimonials";
 import { readSiteContent } from "@/lib/site-content";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HomePage() {
   const content = await readSiteContent();
 

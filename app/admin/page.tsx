@@ -252,16 +252,16 @@ export default function AdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
-      <div className="mx-auto grid min-h-screen max-w-[1450px] lg:grid-cols-[270px_1fr]">
-        <aside className="border-r border-white/10 bg-[#090b10] p-5">
+    <main className="min-h-screen overflow-x-hidden bg-[#050505] text-white">
+      <div className="mx-auto grid min-h-screen max-w-[1450px] lg:grid-cols-[270px_minmax(0,1fr)]">
+        <aside className="border-b border-white/10 bg-[#090b10] p-4 lg:border-b-0 lg:border-r lg:p-5">
           <div className="rounded-xl border border-[#00D1FF]/30 bg-[#0b1320] p-4">
             <p className="text-xs uppercase tracking-[0.18em] text-[#00D1FF]">Modern Electric</p>
             <h1 className="mt-2 text-2xl font-bold">Admin Panel</h1>
             <p className="mt-2 text-xs text-[#8f97a4]">Manage website content</p>
           </div>
 
-          <nav className="mt-6 space-y-2">
+          <nav className="mt-6 grid gap-2 sm:grid-cols-2 lg:block lg:space-y-2">
             <button onClick={() => setTab("portfolio")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "portfolio" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Images className="h-4 w-4" /> Portfolio</button>
             <button onClick={() => setTab("gallery")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "gallery" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Images className="h-4 w-4" /> Gallery</button>
             <button onClick={() => setTab("hero")} className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm ${tab === "hero" ? "border-[#00FF99]/35 bg-[#00FF99]/10 text-[#00FF99]" : "border-white/10 text-[#9aa0a8]"}`}><Zap className="h-4 w-4" /> Hero</button>
@@ -271,16 +271,16 @@ export default function AdminPage() {
             <button className="flex w-full items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-left text-sm text-[#9aa0a8]"><Shield className="h-4 w-4" /> Security</button>
           </nav>
 
-          <button type="button" onClick={logout} className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg border border-[#FF3B3B]/40 px-3 py-2 text-sm text-[#ff8b8b]"><LogOut className="h-4 w-4" /> Logout</button>
+          <button type="button" onClick={logout} className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-[#FF3B3B]/40 px-3 py-2 text-sm text-[#ff8b8b] lg:mt-6"><LogOut className="h-4 w-4" /> Logout</button>
         </aside>
 
-        <section className="p-5 sm:p-8">
-          <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <section className="min-w-0 p-4 sm:p-6 lg:p-8">
+          <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-3xl font-bold">Dashboard</h2>
+              <h2 className="text-2xl font-bold sm:text-3xl">Dashboard</h2>
               <p className="text-sm text-[#9aa0a8]">Edit {tab} content and save changes.</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-2 min-[420px]:flex-row sm:items-center">
               {tab === "portfolio" && (
                 <button
                   type="button"
@@ -312,7 +312,7 @@ export default function AdminPage() {
           </div>
 
           {toast && (
-            <div className={`fixed right-5 top-5 z-[120] flex items-center gap-3 rounded-lg border px-4 py-3 text-sm shadow-lg ${toast.type === "success" ? "border-[#00FF99]/40 bg-[#062618] text-[#9fffd4]" : "border-[#FF3B3B]/40 bg-[#2a0b0b] text-[#ffb0b0]"}`}>
+            <div className={`fixed left-4 right-4 top-4 z-[120] flex items-center justify-between gap-3 rounded-lg border px-4 py-3 text-sm shadow-lg sm:left-auto sm:right-5 sm:top-5 ${toast.type === "success" ? "border-[#00FF99]/40 bg-[#062618] text-[#9fffd4]" : "border-[#FF3B3B]/40 bg-[#2a0b0b] text-[#ffb0b0]"}`}>
               <span>{toast.text}</span>
               <button
                 type="button"
@@ -327,16 +327,16 @@ export default function AdminPage() {
 
           {tab === "portfolio" && (
             <div className="space-y-4">
-              <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0b0b0b] px-3 py-2">
+              <div className="flex flex-col gap-2 rounded-xl border border-white/10 bg-[#0b0b0b] px-3 py-2 sm:flex-row sm:items-center">
                 <Search className="h-4 w-4 text-[#8f97a4]" />
-                <input value={portfolioQuery} onChange={(e) => setPortfolioQuery(e.target.value)} placeholder="Search by title/category/tag/video..." className="w-full bg-transparent text-sm outline-none" />
+                <input value={portfolioQuery} onChange={(e) => setPortfolioQuery(e.target.value)} placeholder="Search by title/category/tag/video..." className="w-full min-w-0 bg-transparent text-sm outline-none" />
                 <Link href="/#portfolio" target="_blank" className="inline-flex items-center gap-1 rounded-md border border-[#00D1FF]/40 px-2 py-1 text-xs text-[#00D1FF]">
                   <ExternalLink className="h-3.5 w-3.5" /> Show Page
                 </Link>
               </div>
 
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]">
-                <table className="w-full text-left text-sm">
+              <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#0b0b0b]">
+                <table className="w-full min-w-[760px] text-left text-sm">
                   <thead className="bg-white/5 text-xs uppercase tracking-[0.14em] text-[#8f97a4]">
                     <tr>
                       <th className="px-3 py-3">Preview</th>
@@ -377,7 +377,7 @@ export default function AdminPage() {
 
               {editingPortfolioIndex !== null && content.portfolio[editingPortfolioIndex] && (
                 <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-                  <div className="w-full max-w-3xl rounded-2xl border border-white/15 bg-[#0b0b0b] p-4">
+                  <div className="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-white/15 bg-[#0b0b0b] p-4">
                     <div className="mb-3 flex items-center justify-between">
                       <h3 className="text-lg font-semibold">Edit Portfolio Item #{editingPortfolioIndex + 1}</h3>
                       <button type="button" onClick={() => setEditingPortfolioIndex(null)} className="rounded-md border border-white/20 p-1"><X className="h-4 w-4" /></button>
@@ -399,16 +399,16 @@ export default function AdminPage() {
 
           {tab === "gallery" && (
             <div className="space-y-4">
-              <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0b0b0b] px-3 py-2">
+              <div className="flex flex-col gap-2 rounded-xl border border-white/10 bg-[#0b0b0b] px-3 py-2 sm:flex-row sm:items-center">
                 <Search className="h-4 w-4 text-[#8f97a4]" />
-                <input value={galleryQuery} onChange={(e) => setGalleryQuery(e.target.value)} placeholder="Search by title/category/span..." className="w-full bg-transparent text-sm outline-none" />
+                <input value={galleryQuery} onChange={(e) => setGalleryQuery(e.target.value)} placeholder="Search by title/category/span..." className="w-full min-w-0 bg-transparent text-sm outline-none" />
                 <Link href="/#gallery" target="_blank" className="inline-flex items-center gap-1 rounded-md border border-[#00D1FF]/40 px-2 py-1 text-xs text-[#00D1FF]">
                   <ExternalLink className="h-3.5 w-3.5" /> Show Page
                 </Link>
               </div>
 
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]">
-                <table className="w-full text-left text-sm">
+              <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#0b0b0b]">
+                <table className="w-full min-w-[680px] text-left text-sm">
                   <thead className="bg-white/5 text-xs uppercase tracking-[0.14em] text-[#8f97a4]">
                     <tr>
                       <th className="px-3 py-3">Preview</th>
@@ -447,7 +447,7 @@ export default function AdminPage() {
 
               {editingGalleryIndex !== null && content.gallery[editingGalleryIndex] && (
                 <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-                  <div className="w-full max-w-3xl rounded-2xl border border-white/15 bg-[#0b0b0b] p-4">
+                  <div className="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-white/15 bg-[#0b0b0b] p-4">
                     <div className="mb-3 flex items-center justify-between">
                       <h3 className="text-lg font-semibold">Edit Gallery Item #{editingGalleryIndex + 1}</h3>
                       <button type="button" onClick={() => setEditingGalleryIndex(null)} className="rounded-md border border-white/20 p-1"><X className="h-4 w-4" /></button>
@@ -497,16 +497,16 @@ export default function AdminPage() {
 
           {tab === "pricing" && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0b0b0b] px-3 py-2">
+              <div className="flex flex-col gap-2 rounded-xl border border-white/10 bg-[#0b0b0b] px-3 py-2 sm:flex-row sm:items-center">
                 <Search className="h-4 w-4 text-[#8f97a4]" />
-                <input value={pricingQuery} onChange={(e) => setPricingQuery(e.target.value)} placeholder="Search by name/price/accent..." className="w-full bg-transparent text-sm outline-none" />
+                <input value={pricingQuery} onChange={(e) => setPricingQuery(e.target.value)} placeholder="Search by name/price/accent..." className="w-full min-w-0 bg-transparent text-sm outline-none" />
                 <Link href="/#pricing" target="_blank" className="inline-flex items-center gap-1 rounded-md border border-[#00D1FF]/40 px-2 py-1 text-xs text-[#00D1FF]">
                   <ExternalLink className="h-3.5 w-3.5" /> Show Page
                 </Link>
               </div>
 
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]">
-                <table className="w-full text-left text-sm">
+              <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#0b0b0b]">
+                <table className="w-full min-w-[760px] text-left text-sm">
                   <thead className="bg-white/5 text-xs uppercase tracking-[0.14em] text-[#8f97a4]">
                     <tr>
                       <th className="px-3 py-3">Name</th>
@@ -543,7 +543,7 @@ export default function AdminPage() {
 
               {editingPricingIndex !== null && content.pricing[editingPricingIndex] && (
                 <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-                  <div className="w-full max-w-3xl rounded-2xl border border-white/15 bg-[#0b0b0b] p-4">
+                  <div className="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-white/15 bg-[#0b0b0b] p-4">
                     <div className="mb-3 flex items-center justify-between">
                       <h3 className="text-lg font-semibold">Edit Pricing Plan #{editingPricingIndex + 1}</h3>
                       <button type="button" onClick={() => setEditingPricingIndex(null)} className="rounded-md border border-white/20 p-1"><X className="h-4 w-4" /></button>

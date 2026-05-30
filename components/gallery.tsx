@@ -22,7 +22,7 @@ export function Gallery({ items }: GalleryProps) {
           description="Professional snapshots from mosque installations, retail signboards, and LED hardware close-ups."
         />
 
-        <div className="mt-8 grid auto-rows-[180px] gap-4 md:grid-cols-4">
+        <div className="mt-8 grid auto-rows-[220px] gap-4 sm:grid-cols-2 md:auto-rows-[180px] md:grid-cols-4">
           {items.map((item, i) => (
             <motion.button
               key={item.title}
@@ -44,10 +44,10 @@ export function Gallery({ items }: GalleryProps) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="inline-flex rounded-full border border-[#00D1FF]/45 bg-[#00D1FF]/12 px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] text-[#66dfff]">
+                <p className="inline-flex max-w-full rounded-full border border-[#00D1FF]/45 bg-[#00D1FF]/12 px-2.5 py-1 text-[10px] uppercase tracking-[0.1em] text-[#66dfff] sm:tracking-[0.14em]">
                   {item.category}
                 </p>
-                <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
+                <h3 className="mt-2 break-words text-lg font-semibold text-white">{item.title}</h3>
               </div>
             </motion.button>
           ))}
@@ -67,7 +67,7 @@ export function Gallery({ items }: GalleryProps) {
             </button>
             <img src={active.image} alt={active.title} className="max-h-[75vh] w-full object-contain" />
             <div className="border-t border-white/10 p-4">
-              <h3 className="text-2xl font-semibold text-white">{active.title}</h3>
+              <h3 className="break-words text-xl font-semibold text-white sm:text-2xl">{active.title}</h3>
               <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#9aa0a8]">{active.category}</p>
             </div>
           </div>

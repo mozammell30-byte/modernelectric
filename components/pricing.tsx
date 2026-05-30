@@ -36,32 +36,32 @@ export function Pricing({ plans }: { plans: PricingPlan[] }) {
           <p className="mx-auto inline-flex rounded-lg border border-[#00D1FF]/40 bg-[#00D1FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#00D1FF]">
             Pricing
           </p>
-          <h2 className="mt-4 text-4xl font-bold leading-[1.05] text-white sm:text-6xl">
+          <h2 className="mt-4 break-words text-3xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-6xl">
             Transparent <span className="text-[#45dfff] drop-shadow-[0_0_14px_rgba(69,223,255,0.8)]">packages</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-[#9aa0a8]">
+          <p className="mx-auto mt-5 max-w-2xl text-base text-[#9aa0a8] sm:text-lg">
             Indicative starting prices. Final quote depends on size, color count and installation site.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:mt-10 lg:grid-cols-3">
           {plans.map((plan) => {
             const accent = accentMap[plan.accent];
             return (
               <article
                 key={plan.name}
-                className={`relative rounded-3xl border bg-[#0b0b0b] p-6 ${accent.border} ${accent.glow}`}
+                className={`relative min-w-0 rounded-2xl border bg-[#0b0b0b] p-5 sm:rounded-3xl sm:p-6 ${accent.border} ${accent.glow}`}
               >
                 {plan.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#20b9d6] px-4 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-black shadow-[0_0_14px_rgba(32,185,214,0.7)]">
+                  <span className="absolute -top-3 left-1/2 max-w-[calc(100%-2rem)] -translate-x-1/2 whitespace-nowrap rounded-full bg-[#20b9d6] px-4 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-black shadow-[0_0_14px_rgba(32,185,214,0.7)] sm:tracking-[0.16em]">
                     Most Popular
                   </span>
                 )}
 
                 <p className="text-xs uppercase tracking-[0.16em] text-[#9da4b1]">{plan.name}</p>
-                <p className={`mt-2 text-6xl font-bold ${accent.price}`}>{plan.price}</p>
+                <p className={`mt-2 break-words text-4xl font-bold sm:text-6xl ${accent.price}`}>{plan.price}</p>
                 <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#7b828f]">{plan.subtitle}</p>
-                <p className="mt-4 border-b border-white/10 pb-5 text-xl text-[#a9afba]">{plan.description}</p>
+                <p className="mt-4 border-b border-white/10 pb-5 text-base text-[#a9afba] sm:text-xl">{plan.description}</p>
 
                 <ul className="mt-5 space-y-3">
                   {plan.features.map((feature) => (

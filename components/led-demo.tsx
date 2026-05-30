@@ -148,19 +148,19 @@ export function LedDemo() {
           <p className="mx-auto inline-flex rounded-lg border border-[#00D1FF]/40 bg-[#00D1FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#00D1FF]">
             Live Preview
           </p>
-          <h2 className="mt-4 text-4xl font-bold leading-[1.05] text-white sm:text-6xl">
+          <h2 className="mt-4 break-words text-3xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-6xl">
             Try our <span className="text-[#00D1FF] drop-shadow-[0_0_14px_rgba(0,209,255,0.8)]">LED display</span> in
             <br />
             real-time
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-[#9aa0a8]">
+          <p className="mx-auto mt-5 max-w-2xl text-base text-[#9aa0a8] sm:text-lg">
             Type your message, pick a color, and see exactly how your sign will look right now.
           </p>
         </motion.div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[420px_1fr]">
-          <div className="glass-panel rounded-3xl border-white/15 bg-gradient-to-b from-[#11131a]/85 to-[#090b12]/90 p-6">
-            <p className="flex items-center gap-2 text-3xl font-semibold text-white">
+        <div className="mt-8 grid min-w-0 gap-6 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)] lg:mt-10">
+          <div className="glass-panel min-w-0 rounded-2xl border-white/15 bg-gradient-to-b from-[#11131a]/85 to-[#090b12]/90 p-4 sm:rounded-3xl sm:p-6">
+            <p className="flex items-center gap-2 text-2xl font-semibold text-white sm:text-3xl">
               <Settings2 className="h-5 w-5 text-[#00FF99]" />
               LED Text Generator
             </p>
@@ -217,7 +217,7 @@ export function LedDemo() {
               className="mt-3 w-full accent-[#00FF99]"
             />
 
-            <div className="mt-8 flex gap-3">
+            <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row">
               <button
                 type="button"
                 onClick={() => setRunning((v) => !v)}
@@ -237,16 +237,16 @@ export function LedDemo() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5 }}
-            className="space-y-4"
+            className="min-w-0 space-y-4"
           >
-            <div className="glass-panel rounded-3xl border-[#00FF99]/40 bg-gradient-to-b from-[#0f131c]/85 to-[#090b12]/95 p-5">
-              <div className="mb-3 flex items-center justify-between text-xs uppercase tracking-[0.18em] text-[#8c93a0]">
+            <div className="glass-panel rounded-2xl border-[#00FF99]/40 bg-gradient-to-b from-[#0f131c]/85 to-[#090b12]/95 p-4 sm:rounded-3xl sm:p-5">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs uppercase tracking-[0.12em] text-[#8c93a0] sm:tracking-[0.18em]">
                 <span>Scrolling LED Board</span>
                 <span style={{ color: ledColor }}>Live</span>
               </div>
               <div className="overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[length:8px_8px] px-4 py-5">
                 <p
-                  className={`inline-block min-w-full whitespace-nowrap font-mono text-4xl font-bold tracking-wide ${running ? "animate-marquee" : ""}`}
+                  className={`inline-block min-w-full whitespace-nowrap font-mono text-2xl font-bold tracking-wide sm:text-4xl ${running ? "animate-marquee" : ""}`}
                   style={{ animationDuration: `${speed}s`, color: ledColor, textShadow: `0 0 12px ${ledColor}` }}
                 >
                   DEMO * {message}
@@ -254,27 +254,27 @@ export function LedDemo() {
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="glass-panel rounded-3xl p-4">
-                <div className="mb-3 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-[#8c93a0]">
+            <div className="grid min-w-0 gap-4 md:grid-cols-2">
+              <div className="glass-panel min-w-0 rounded-2xl p-4 sm:rounded-3xl">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs uppercase tracking-[0.1em] text-[#8c93a0] sm:tracking-[0.16em]">
                   <span>Live Prayer - Kolkata</span>
                   <span style={{ color: ledColor }}>{hijriLabel}</span>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[length:8px_8px] p-5 text-center">
                   <p className="text-xs uppercase tracking-[0.16em] text-[#8c93a0]">Next Prayer in {nextPrayerCountdown}</p>
-                  <p className="mt-2 font-mono text-5xl font-semibold leading-[1.05]" style={{ color: ledColor, textShadow: `0 0 14px ${ledColor}` }}>
+                  <p className="mt-2 break-words font-mono text-3xl font-semibold leading-[1.05] sm:text-5xl" style={{ color: ledColor, textShadow: `0 0 14px ${ledColor}` }}>
                     {nextPrayerLabel}
                   </p>
                 </div>
               </div>
 
-              <div className="glass-panel rounded-3xl p-4">
-                <div className="mb-3 text-xs uppercase tracking-[0.16em] text-[#8c93a0]">Ramadan Countdown - {hijriLabel}</div>
+              <div className="glass-panel min-w-0 rounded-2xl p-4 sm:rounded-3xl">
+                <div className="mb-3 text-xs uppercase tracking-[0.1em] text-[#8c93a0] sm:tracking-[0.16em]">Ramadan Countdown - {hijriLabel}</div>
                 <div className="rounded-2xl border border-white/10 bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[length:8px_8px] p-5 text-center">
                   <p className="mb-2 text-xs uppercase tracking-[0.16em]" style={{ color: ledColor }}>
                     Ramadan Mubarak
                   </p>
-                  <p className="font-mono text-5xl font-semibold" style={{ color: ledColor, textShadow: `0 0 14px ${ledColor}` }}>
+                  <p className="break-words font-mono text-3xl font-semibold sm:text-5xl" style={{ color: ledColor, textShadow: `0 0 14px ${ledColor}` }}>
                     {ramadanCountdown}
                   </p>
                 </div>

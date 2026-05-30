@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { readSiteContent, writeSiteContent, type SiteContent } from "@/lib/site-content";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   const content = await readSiteContent();
@@ -13,5 +16,6 @@ export async function POST(req: Request) {
   }
 
   await writeSiteContent(body);
+  revalidatePath("/");
   return NextResponse.json({ ok: true });
 }

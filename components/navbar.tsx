@@ -14,8 +14,8 @@ export function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <nav className="container-shell mt-4">
-        <div className="glass-panel flex items-center justify-between rounded-2xl px-4 py-3">
-          <Link href="#home" aria-label="Modern Electric Home">
+        <div className="glass-panel flex min-w-0 items-center justify-between gap-3 rounded-2xl px-3 py-3 sm:px-4">
+          <Link href="#home" aria-label="Modern Electric Home" className="min-w-0">
             <Logo />
           </Link>
 

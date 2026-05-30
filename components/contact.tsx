@@ -41,7 +41,7 @@ Requirements: ${form.requirements || "-"}
         />
 
         <div className="mt-7 grid gap-4 lg:grid-cols-2">
-          <form onSubmit={submitToWhatsApp} className="glass-panel neon-ring rounded-2xl p-5">
+          <form onSubmit={submitToWhatsApp} className="glass-panel neon-ring rounded-2xl p-4 sm:p-5">
             <div className="grid gap-3 sm:grid-cols-2">
               <Input
                 placeholder="Full Name"
@@ -79,7 +79,7 @@ Requirements: ${form.requirements || "-"}
               value={form.requirements}
               onChange={(e) => setForm((s) => ({ ...s, requirements: e.target.value }))}
             />
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex flex-col gap-2 min-[420px]:flex-row">
               <Button type="submit" className="bg-[#00FF99] text-black hover:bg-[#6bffbf]">Send Inquiry</Button>
               <Button
                 type="button"
@@ -94,13 +94,13 @@ Requirements: ${form.requirements || "-"}
 
           <div className="space-y-3">
             <div className="glass-panel rounded-xl p-4 text-sm text-[#AAAAAA]">
-              <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-[#00FF99]" /> +91 9800782814</p>
+              <p className="flex items-center gap-2 break-words"><Phone className="h-4 w-4 shrink-0 text-[#00FF99]" /> +91 9800782814</p>
             </div>
             <div className="glass-panel rounded-xl p-4 text-sm text-[#AAAAAA]">
-              <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-[#00D1FF]" /> mozammell2018@gmail.com</p>
+              <p className="flex items-center gap-2 break-all"><Mail className="h-4 w-4 shrink-0 text-[#00D1FF]" /> mozammell2018@gmail.com</p>
             </div>
             <div className="glass-panel rounded-xl p-4 text-sm text-[#AAAAAA]">
-              <p className="flex items-center gap-2"><MapPin className="h-4 w-4 text-[#FF3B3B]" /> Near Childrens Corner Institution, Sangrampur, Kalikapota, Ushti, Sangrampur, West Bengal 743355</p>
+              <p className="flex items-start gap-2 break-words"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#FF3B3B]" /> Near Childrens Corner Institution, Sangrampur, Kalikapota, Ushti, Sangrampur, West Bengal 743355</p>
             </div>
             <div className="glass-panel rounded-xl p-2">
               <div className="overflow-hidden rounded-md border border-white/15">

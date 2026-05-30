@@ -32,17 +32,17 @@ export function Portfolio({ items }: { items: PortfolioItem[] }) {
           <p className="mx-auto inline-flex rounded-lg border border-[#00FF99]/40 bg-[#00FF99]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#00FF99]">
             Recent Work
           </p>
-          <h2 className="mt-4 text-4xl font-bold leading-[1.05] text-white sm:text-6xl">
+          <h2 className="mt-4 break-words text-3xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-6xl">
             Installs that <span className="text-[#00FF99] drop-shadow-[0_0_14px_rgba(0,255,153,0.8)]">light up</span>
             <br />
             communities
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-[#9aa0a8]">
+          <p className="mx-auto mt-5 max-w-2xl text-base text-[#9aa0a8] sm:text-lg">
             A selection of our recent mosque and business deployments across the country.
           </p>
         </div>
 
-        <div className="mt-10 grid auto-rows-[180px] gap-4 md:grid-cols-4">
+        <div className="mt-8 grid auto-rows-[220px] gap-4 sm:grid-cols-2 md:auto-rows-[180px] md:grid-cols-4 lg:mt-10">
           {items.map((item, i) => (
             <motion.article
               key={item.title}
@@ -80,10 +80,10 @@ export function Portfolio({ items }: { items: PortfolioItem[] }) {
                 </button>
               )}
               <div className="absolute inset-x-0 bottom-0 p-5">
-                <p className="inline-flex rounded-full border border-[#00FF99]/45 bg-[#00FF99]/12 px-3 py-1 text-[11px] uppercase tracking-[0.15em] text-[#00FF99]">
+                <p className="inline-flex max-w-full rounded-full border border-[#00FF99]/45 bg-[#00FF99]/12 px-3 py-1 text-[10px] uppercase tracking-[0.1em] text-[#00FF99] sm:text-[11px] sm:tracking-[0.15em]">
                   {item.tag}
                 </p>
-                <h3 className="mt-3 text-3xl font-semibold leading-tight text-white">{item.title}</h3>
+                <h3 className="mt-3 break-words text-2xl font-semibold leading-tight text-white sm:text-3xl">{item.title}</h3>
               </div>
             </motion.article>
           ))}
@@ -111,7 +111,7 @@ export function Portfolio({ items }: { items: PortfolioItem[] }) {
               />
             </div>
             <div className="border-t border-white/10 p-4">
-              <h3 className="text-3xl font-semibold text-white">{activeVideo.title}</h3>
+              <h3 className="break-words text-2xl font-semibold text-white sm:text-3xl">{activeVideo.title}</h3>
               <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[#9aa0a8]">{activeVideo.category}</p>
             </div>
           </div>
@@ -136,10 +136,10 @@ export function Portfolio({ items }: { items: PortfolioItem[] }) {
               <X className="h-4 w-4" />
             </button>
             <div className="max-h-[75vh] overflow-hidden">
-              <img src={activeImage.image} alt={activeImage.title} className="h-full w-full object-contain" />
+              <img src={activeImage.image} alt={activeImage.title} className="max-h-[75vh] w-full object-contain" />
             </div>
             <div className="border-t border-white/10 p-4">
-              <h3 className="text-3xl font-semibold text-white">{activeImage.title}</h3>
+              <h3 className="break-words text-2xl font-semibold text-white sm:text-3xl">{activeImage.title}</h3>
               <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[#9aa0a8]">{activeImage.category}</p>
             </div>
           </div>
