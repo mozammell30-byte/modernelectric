@@ -92,7 +92,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     async function load() {
-      const res = await fetch("/api/admin/site_content");
+      const res = await fetch("/api/admin/content");
       if (res.status === 401) {
         router.push("/admin/login");
         return;
@@ -225,7 +225,7 @@ export default function AdminPage() {
   async function save(section: TabKey) {
     if (!content) return;
     setSaving(true);
-    const res = await fetch("/api/admin/site_content", {
+    const res = await fetch("/api/admin/content", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(content),
